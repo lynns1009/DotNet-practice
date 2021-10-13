@@ -15,5 +15,10 @@
     <PackageReference Include="StackExchange.Redis" Version="2.2.50" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Eagle.Application\Eagle.Application.csproj" />
+    <ProjectReference Include="..\Eagle.Domain\Eagle.Domain.csproj" />
+  </ItemGroup>
+
 
 </Project>
