@@ -8,7 +8,7 @@ using Eagle.Domain.Repositories;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Test
+namespace Eagle.Test
 {
     [TestClass]
     public class ServiceUnitTest
@@ -16,13 +16,13 @@ namespace Test
         private TrafficPayload trafficPayload1;
         private TrafficPayload trafficPayload2;
         private EagleService eagleService;
-        private Mock<IRedisRepository> mockRepo;
+        private Mock<IRedisRepository> mockRepository;
 
         [TestInitialize]
         public void Setup()
         {
-            mockRepo = new Mock<IRedisRepository>();
-            eagleService = new EagleService(mockRepo.Object);
+            mockRepository = new Mock<IRedisRepository>();
+            eagleService = new EagleService(mockRepository.Object);
             trafficPayload1 = new TrafficPayload
             {
                 EagleBotGuid = System.Guid.NewGuid(),
@@ -52,7 +52,7 @@ namespace Test
         public void ShouldReturnTrueWhenSaveSuccessful()
         {
             var jsonString = JsonSerializer.Serialize(trafficPayload1);
-            mockRepo.Setup(r => r.Save(trafficPayload1.EagleBotGuid.ToString(), jsonString)).ReturnsAsync(true);
+            mockRepository.Setup(r => r.Save(trafficPayload1.EagleBotGuid.ToString(), jsonString)).ReturnsAsync(true);
 
             var savedResult = eagleService.Save(trafficPayload1);
 
@@ -62,7 +62,7 @@ namespace Test
         [TestMethod]
         public void ShouldReturnTrafficPayloadDataAsAList()
         {
-            mockRepo.Setup(r => r.GetAll()).ReturnsAsync(new List<string>{ JsonSerializer.Serialize(trafficPayload1), JsonSerializer.Serialize(trafficPayload2)});
+            mockRepository.Setup(r => r.GetAll()).ReturnsAsync(new List<string>{ JsonSerializer.Serialize(trafficPayload1), JsonSerializer.Serialize(trafficPayload2)});
 
             var getAllData = eagleService.GetAll();
 

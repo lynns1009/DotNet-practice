@@ -1,3 +1,5 @@
+using Eagle.Application.Interfaces;
+using Eagle.Application.Services;
 using Eagle.Domain;
 using Eagle.Domain.Models;
 using Eagle.Domain.Repositories;
@@ -24,6 +26,7 @@ namespace Eagle
             services.AddControllers();
 
             services.AddScoped(typeof(IRedisRepository), typeof(RedisRepository));
+            services.AddScoped(typeof(IEagleService), typeof(EagleService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

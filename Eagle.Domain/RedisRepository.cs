@@ -27,7 +27,7 @@ namespace Eagle.Domain
         {
             var result = new List<string>();
             var keys = _redis.GetServer("localhost", 6379).Keys();
-            var keysArr = keys.Select(key => (string)key).ToArray();
+            var keysArr = keys.Select(key => (string)key);
             var redisDb = _redis.GetDatabase();
 
             foreach (string key in keysArr)

@@ -10,17 +10,20 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["Eagle.sln", "Eagle/"]
-COPY ["Eagle.Application/Eagle.Application.csproj", "Eagle/Eagle.Application"]
-COPY ["Eagle.Domain/Eagle.Domain.csproj", "Eagle/Eagle.Domain"]
-COPY ["Eagle.WebApi/Eagle.WebApi.csproj", "Eagle/Eagle.WebApi"]
-COPY ["Eagle.Test/Eagle.Test.csproj", "Eagle/Eagle.Test"]
-#RUN dotnet restore "../Eagle.sln"
 
 COPY . .
-WORKDIR "/src/Eagle/Eagle.Application"
-RUN dotnet build "Eagle.Application.csproj" -c Release -o /app/build
+RUN dotnet restore "Eagle.sln"
 
+WORKDIR "/src/."
+COPY . .
+
+RUN dotnet build "Eagle.Application/Eagle.Application.csproj" -c Release -o /app/build
+
+RUN dotnet build "Eagle.Domain/Eagle.Domain.csproj" -c Release -o /app/build
+
+RUN dotnet build "Eagle.Test/Eagle.Test.csproj" -c Release -o /app/build
+
+RUN dotnet build "Eagle.WebApi/Eagle.WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Eagle.sln" -c Release -o /app/publish
@@ -28,4 +31,5 @@ RUN dotnet publish "Eagle.sln" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Eagle.dll"]
+
+ENTRYPOINT ["dotnet", "Eagle.WebApi.dll"]
