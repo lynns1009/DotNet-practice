@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Eagle.Domain.Models;
 using Eagle.Application.Interfaces;
 using System;
+using Eagle.Application;
 
 namespace Eagle.Controllers
 {
@@ -13,22 +14,24 @@ namespace Eagle.Controllers
     [Route("/eagle")]
     public class EagleServiceController : ControllerBase
     {
+        private readonly IEagleRedisService _eagleRedisService;
         private readonly IEagleService _eagleService;
-        public EagleServiceController(IEagleService eagleService)
+        public EagleServiceController(IEagleRedisService eagleRedisService, IEagleService eagleService)
         {
-            _eagleService = eagleService ?? throw new ArgumentNullException(nameof(eagleService)); ;
+            _eagleRedisService = eagleRedisService ?? throw new ArgumentNullException(nameof(eagleRedisService));
+            _eagleService = eagleService ?? throw new ArgumentNullException(nameof(eagleService));
         }
 
         [HttpGet]
         public async Task<IEnumerable<TrafficPayload>> Get()
         {
-            return await _eagleService.GetAll();
+            return await _eagleRedisService.GetAll();
         }
 
         [HttpPost]
         public async Task Save([FromBody] TrafficPayload trafficPayload)
         {
-            await _eagleService.Save(trafficPayload);
+            _eagleService.SendMessage(trafficPayload);
         }
     }
 }

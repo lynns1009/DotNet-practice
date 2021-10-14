@@ -11,18 +11,18 @@ using System.Collections.Generic;
 namespace Eagle.Test
 {
     [TestClass]
-    public class ServiceUnitTest
+    public class EagleRedisServiceUnitTest
     {
         private TrafficPayload trafficPayload1;
         private TrafficPayload trafficPayload2;
-        private EagleService eagleService;
+        private EagleRedisService eagleService;
         private Mock<IRedisRepository> mockRepository;
 
         [TestInitialize]
         public void Setup()
         {
             mockRepository = new Mock<IRedisRepository>();
-            eagleService = new EagleService(mockRepository.Object);
+            eagleService = new EagleRedisService(mockRepository.Object);
             trafficPayload1 = new TrafficPayload
             {
                 EagleBotGuid = System.Guid.NewGuid(),

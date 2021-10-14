@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Eagle.Application.Services
 {
-    public class EagleService : IEagleService
+    public class EagleRedisService : IEagleRedisService
 	{
 		private readonly IRedisRepository _repository;
 
-        public EagleService(IRedisRepository redisRepository)
+        public EagleRedisService(IRedisRepository redisRepository)
         {
             _repository = redisRepository ?? throw new ArgumentNullException(nameof(redisRepository));
         }

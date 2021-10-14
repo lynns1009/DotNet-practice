@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Eagle.Application.Interfaces
 {
-    public interface IEagleService
+    public interface IEagleRedisService
 	{
 		Task<List<TrafficPayload>> GetAll();
 		Task<bool> Save(TrafficPayload trafficPayload);

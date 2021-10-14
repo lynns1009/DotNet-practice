@@ -1,3 +1,4 @@
+using Eagle.Application;
 using Eagle.Application.Interfaces;
 using Eagle.Application.Services;
 using Eagle.Domain;
@@ -26,6 +27,8 @@ namespace Eagle
             services.AddControllers();
 
             services.AddScoped(typeof(IRedisRepository), typeof(RedisRepository));
+            services.AddScoped(typeof(IEagleRedisService), typeof(EagleRedisService));
+            services.AddScoped(typeof(IEagleMessageQueueService), typeof(EagleMessageQueueService));
             services.AddScoped(typeof(IEagleService), typeof(EagleService));
         }
 
