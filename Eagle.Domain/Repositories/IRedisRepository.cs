@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Eagle.Domain.Repositories
 {
-    public interface IRedisRepository<T>
+    public interface IRedisRepository
     {
-        public Task<IEnumerable<T>> GetAll();
+        public Task<List<string>> GetAll();
 
-        public Task Save(TrafficPayload data);
+        public Task<bool> Save(string dataId, string dataValue);
     }
 }

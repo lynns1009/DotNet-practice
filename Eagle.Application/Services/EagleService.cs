@@ -3,26 +3,36 @@ using Eagle.Domain.Models;
 using Eagle.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Eagle.Application.Services
 {
     public class EagleService : IEagleService
 	{
-		private readonly IRedisRepository<TrafficPayload> _repository;
+		private readonly IRedisRepository _repository;
 
-        public EagleService(IRedisRepository<TrafficPayload> redisRepository)
+        public EagleService(IRedisRepository redisRepository)
         {
             _repository = redisRepository ?? throw new ArgumentNullException(nameof(redisRepository));
         }
-        public async Task<IEnumerable<TrafficPayload>> GetAll()
+        public async Task<List<TrafficPayload>> GetAll()
         {
-            return await _repository.GetAll();
+            var result = new List<TrafficPayload>();
+            var dataList =  await _repository.GetAll();
+            foreach (var item in dataList)
+            {
+                result.Add(JsonSerializer.Deserialize<TrafficPayload>(item));
+            }
+            return result;
         }
 
-        public async Task Save(TrafficPayload trafficPayload)
+        public async Task<bool> Save(TrafficPayload trafficPayload)
         {
-            await _repository.Save(trafficPayload);
+            var dataGuid = trafficPayload.EagleBotGuid.ToString();
+            var dataValue = JsonSerializer.Serialize(trafficPayload);
+
+            return await _repository.Save(dataGuid, dataValue);
         }
     }
 }

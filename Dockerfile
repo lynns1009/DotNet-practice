@@ -11,17 +11,16 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 COPY ["Eagle.sln", "Eagle/"]
-COPY ["Eagle/Eagle.csproj", "Eagle/Eagle"]
-COPY ["Test/Test.csproj", "Eagle/Test"]
-RUN dotnet restore "Eagle.sln"
+COPY ["Eagle.Application/Eagle.Application.csproj", "Eagle/Eagle.Application"]
+COPY ["Eagle.Domain/Eagle.Domain.csproj", "Eagle/Eagle.Domain"]
+COPY ["Eagle.WebApi/Eagle.WebApi.csproj", "Eagle/Eagle.WebApi"]
+COPY ["Eagle.Test/Eagle.Test.csproj", "Eagle/Eagle.Test"]
+#RUN dotnet restore "../Eagle.sln"
 
 COPY . .
-WORKDIR "/src/Eagle/Eagle"
-RUN dotnet build "Eagle.sln" -c Release -o /app/build
+WORKDIR "/src/Eagle/Eagle.Application"
+RUN dotnet build "Eagle.Application.csproj" -c Release -o /app/build
 
-COPY . .
-WORKDIR "/src/Eagle/Test"
-RUN dotnet build "Eagle.sln" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Eagle.sln" -c Release -o /app/publish

@@ -6,7 +6,7 @@ namespace Eagle.Domain.Models
     public class TrafficPayload
     {
         [DataMember(Name = "id")]
-        public Guid EagleBotId { get; set; }
+        public Guid EagleBotGuid { get; set; }
 
         [DataMember(Name = "latitude")]
         public double Latitude { get; set; }
@@ -24,10 +24,10 @@ namespace Eagle.Domain.Models
         public String Direction { get; set; }
 
         [DataMember(Name = "rate")]
-        public decimal Rate { get; set; }
+        public double Rate { get; set; }
 
         [DataMember(Name = "averageSpeed")]
-        public decimal AverageSpeed { get; set; }
+        public double AverageSpeed { get; set; }
 
     }
 }

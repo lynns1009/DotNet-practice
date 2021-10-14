@@ -7,7 +7,7 @@ namespace Eagle.Application.Interfaces
 {
     public interface IEagleService
 	{
-		Task<IEnumerable<TrafficPayload>> GetAll();
-		Task Save(TrafficPayload trafficPayload);
+		Task<List<TrafficPayload>> GetAll();
+		Task<bool> Save(TrafficPayload trafficPayload);
 	}
 }
