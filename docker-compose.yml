@@ -1,0 +1,36 @@
+version: '3.4'
+
+networks:
+  eagle-default:
+    driver: bridge
+  
+services:
+  eagle:
+     build:
+       context: .
+       dockerfile: Dockerfile
+     environment:
+        - ASPNETCORE_URLS=http://+:80
+     ports:
+        - "80:80"
+     networks: 
+        - eagle-default
+     depends_on:
+        - rabbitmq
+        - redis
+
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    networks:
+        - eagle-default
+    ports:
+        - "6397:6397"
+
+
+  rabbitmq:     
+    image: rabbitmq:3.9-management
+    networks: 
+        - eagle-default
+    ports:
+        - "5627:5627"
