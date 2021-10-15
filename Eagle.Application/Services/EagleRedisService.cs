@@ -29,10 +29,10 @@ namespace Eagle.Application.Services
 
         public async Task<bool> Save(TrafficPayload trafficPayload)
         {
-            var dataGuid = trafficPayload.EagleBotGuid.ToString();
+            var dataKey = $"{trafficPayload.EagleBotGuid} {trafficPayload.Date.Millisecond}";
             var dataValue = JsonSerializer.Serialize(trafficPayload);
 
-            return await _repository.Save(dataGuid, dataValue);
+            return await _repository.Save(dataKey, dataValue);
         }
     }
 }
