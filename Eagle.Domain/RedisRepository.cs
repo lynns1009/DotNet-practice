@@ -18,7 +18,7 @@ namespace Eagle.Domain
             _redis = ConnectionMultiplexer.Connect(
                 new ConfigurationOptions
                 {
-                    EndPoints = { "localhost:6379" },
+                    EndPoints = { "redis:6379" },
                     AbortOnConnectFail = false
                 }); ;
         }
@@ -26,7 +26,7 @@ namespace Eagle.Domain
         public async Task<List<string>> GetAll()
         {
             var result = new List<string>();
-            var keys = _redis.GetServer("localhost", 6379).Keys();
+            var keys = _redis.GetServer("redis", 6379).Keys();
             var keysArr = keys.Select(key => (string)key);
             var redisDb = _redis.GetDatabase();
 
